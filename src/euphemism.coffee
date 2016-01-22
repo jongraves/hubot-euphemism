@@ -14,8 +14,10 @@ cheerio = require("cheerio")
 
 module.exports = (robot) ->
   robot.respond /(euphemism|euph)( me)?/i, (msg) ->
+    msg.send "responding"
     robot.http('http://toykeeper.net/programs/mad/euphemisms')
       .get() (err, res, body) ->
+        msg.send "loading"
         $ = cheerio.load(body)
         mine = $('b').first().text().trim()
         msg.send mine
